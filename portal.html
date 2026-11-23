@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Académico - Reporte de Calificaciones | República Argentina</title>
+
+  <!-- Google Fonts: Inter (Tipografía) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons (Librería Completa) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- 1. BARRA SUPERIOR PRINCIPAL (Top Header)-->
+  <header class="top-header">
+    <div class="brand-section">
+      <!-- Escudo Nacional -->
+      <div class="school-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Coat_of_arms_of_Argentina.svg"
+          alt="Escudo de la República Argentina" class="arg-crest" loading="eager">
+      </div>
+
+      <div class="header-divider"></div>
+
+      <!-- Título de la Sección -->
+      <div class="header-title-box">
+        <h1>Portal Académico - Reporte de Calificaciones</h1>
+        <p>Sistema Educativo Nacional | Ciclo Lectivo 2026</p>
+      </div>
+    </div>
+
+    <!-- Controles de Usuario (Derecha) -->
+    <div class="header-user-controls">
+      <!-- Icono de Búsqueda -->
+      <button type="button" id="headerBtnBuscar" class="btn-icon" title="Buscar">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+
+      <!-- Perfil de Usuario con Dropdown Interactivo -->
+      <div class="user-profile" id="userProfileTrigger" onclick="toggleUserDropdown(event)" title="Cuenta de Usuario y Perfil">
+        <div class="avatar-wrapper" id="headerAvatarWrapper">
+          <div class="avatar-inner" id="headerAvatarInner">
+            <svg width="22" height="22" fill="#fde68a" viewBox="0 0 24 24">
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+          <span class="notification-dot">1</span>
+        </div>
+        
+        <div class="header-user-meta">
+          <span class="header-user-nombre" id="headerUserNombre">Mateo Gómez</span>
+          <span class="badge badge-green header-user-badge" id="headerUserBadge">Estudiante</span>
+        </div>
+
+        <svg width="14" height="14" fill="none" stroke="#94a3b8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+
+        <!-- Dropdown Menú Flotante -->
+        <div id="userDropdownMenu" class="user-dropdown-menu" style="display: none;" onclick="event.stopPropagation()">
+          <div class="dropdown-header">
+            <div class="dropdown-avatar" id="dropdownAvatar">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <div class="dropdown-name" id="dropdownUserName">Mateo Gómez</div>
+              <div class="dropdown-email" id="dropdownUserEmail">mateo.gomez@escuela.edu.ar</div>
+              <span class="badge badge-green" id="dropdownUserBadge">Estudiante (Consulta Oficial y Mesas)</span>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button type="button" class="dropdown-item" onclick="cambiarPerfilEstudianteTutor()">
+            <i class="fa-solid fa-users-viewfinder"></i> Cambiar Estudiante / Rol
+          </button>
+          <button type="button" class="dropdown-item item-logout" onclick="cerrarSesionUsuario()">
+            <i class="fa-solid fa-power-off"></i> Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. BARRA DE NAVEGACIÓN HORIZONTAL DINÁMICA -->
+  <nav class="nav-bar-horizontal">
+    <!-- Links para Tutor / Alumno -->
+    <div id="navLinksTutor" class="nav-links">
+      <a href="javascript:void(0)" id="navLinkTutorBoletin" class="nav-link-item active" onclick="cambiarPestanaTutor('boletin')">
+        <i class="fa-solid fa-file-invoice"></i> Boletín Oficial
+      </a>
+      <a href="javascript:void(0)" id="navLinkTutorAsistencia" class="nav-link-item" onclick="cambiarPestanaTutor('asistencia')">
+        <i class="fa-solid fa-calendar-check"></i> Asistencia
+      </a>
+      <a href="javascript:void(0)" id="navLinkTutorMesas" class="nav-link-item" onclick="cambiarPestanaTutor('mesas')">
+        <i class="fa-solid fa-graduation-cap"></i> Mesas de examen
+      </a>
+      <a href="javascript:void(0)" id="navLinkTutorNotif" class="nav-link-item" onclick="cambiarPestanaTutor('notificaciones')">
+        <i class="fa-solid fa-bell"></i> Notificaciones
+      </a>
+    </div>
+
+    <!-- Links para Preceptor / Docente -->
+    <div id="navLinksPreceptor" class="nav-links" style="display: none;">
+      <a href="javascript:void(0)" id="navLinkPrecInstitucion" class="nav-link-item" onclick="cambiarPestanaPreceptor('institucion')">
+        <i class="fa-solid fa-school"></i> Institución
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecCarga" class="nav-link-item active" onclick="cambiarPestanaPreceptor('carga')">
+        <i class="fa-solid fa-table-list"></i> Carga de Calificaciones
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecAsistencia" class="nav-link-item" onclick="cambiarPestanaPreceptor('asistencia')">
+        <i class="fa-solid fa-calendar-check"></i> Carga de Asistencia
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecAlumnos" class="nav-link-item" onclick="cambiarPestanaPreceptor('alumnos')">
+        <i class="fa-solid fa-users"></i> Padrón de Alumnos
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecMesas" class="nav-link-item" onclick="cambiarPestanaPreceptor('mesas')">
+        <i class="fa-solid fa-graduation-cap"></i> Mesas de Examen
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecNotif" class="nav-link-item" onclick="cambiarPestanaPreceptor('notificaciones')">
+        <i class="fa-solid fa-bell"></i> Notificaciones
+      </a>
+      <a href="javascript:void(0)" id="navLinkPrecBoletin" class="nav-link-item" onclick="cambiarPestanaPreceptor('boletin')">
+        <i class="fa-solid fa-file-invoice"></i> Ver Boletín Individual
+      </a>
+    </div>
+  </nav>
+
+  <!-- 3. CONTENIDO PRINCIPAL: PORTAL ACADÉMICO -->
+  <div class="portal-container">
+
+    <!-- VISTA A: PANEL DEL PRECEPTOR / DOCENTE -->
+    <div id="vistaPreceptor" style="display: none;">
+
+      <!-- PANEL 1: CARGA DE CALIFICACIONES (EL NÚCLEO) -->
+      <div id="preceptorPanelCarga">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-pen-to-square text-blue"></i>
+                Carga de Calificaciones
+              </h2>
+              <p class="panel-header-sub">
+                Elegí el Curso con división, Materia y Período para cargar las calificaciones de la planilla escolar.
+              </p>
+            </div>
+            <div>
+              <span id="badgeCargaStats" class="badge badge-blue">Cargando datos...</span>
+            </div>
+          </div>
+
+          <div style="padding: 1.25rem 1.5rem;">
+            <!-- Guía de Pasos / Parámetros de la Planilla -->
+            <div class="filtro-cascada-box">
+              <div class="filtro-step-header" style="margin-bottom: 0.85rem;">
+                <div class="step-circle"><i class="fa-solid fa-sliders" style="font-size: 0.75rem;"></i></div>
+                <div class="step-title">Parámetros de la Planilla (Curso, Materia y Período):</div>
+              </div>
+              <div class="grid-selectores-carga">
+                <div class="campo-selector-box">
+                  <label for="selectPreceptorCurso"><i class="fa-solid fa-graduation-cap text-blue"></i> Curso y División:</label>
+                  <select id="selectPreceptorCurso" class="select-carga-materias" onchange="alCambiarCursoCarga(this.value)">
+                    <!-- Opciones pobladas con todos los cursos -->
+                  </select>
+                </div>
+
+                <div class="campo-selector-box">
+                  <label for="selectPreceptorMateria"><i class="fa-solid fa-book text-blue"></i> Materia / Espacio Curricular:</label>
+                  <select id="selectPreceptorMateria" class="select-carga-materias" onchange="alCambiarMateriaCarga(this.value)">
+                    <!-- Materias correspondientes al ciclo del curso seleccionado -->
+                  </select>
+                </div>
+
+                <div class="campo-selector-box">
+                  <label for="selectPreceptorPeriodo"><i class="fa-solid fa-calendar-days"></i> Período a Calificar:</label>
+                  <select id="selectPreceptorPeriodo" class="select-carga-materias" onchange="alCambiarPeriodoCarga(this.value)">
+                    <!-- Trimestres o Cuatrimestres según la institución -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabla de Carga Colectiva de Alumnos -->
+            <div class="card" style="margin-top: 1.25rem;">
+              <div class="card-header bg-surface" style="padding: 0.85rem 1.25rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                  <i class="fa-solid fa-table-list text-blue"></i>
+                  <h3 id="tituloPlanillaDocente" class="text-white" style="margin: 0; font-size: 0.92rem; font-weight: 700;">Planilla de Alumnos</h3>
+                </div>
+                <div id="statsAlumnosPlanilla" class="text-muted" style="font-size: 0.78rem; display: flex; gap: 0.5rem;">
+                  <!-- Resumen de aprobados -->
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="tabla-sabana">
+                  <thead id="theadCargaDocente">
+                    <!-- Dinámico -->
+                  </thead>
+                  <tbody id="tbodyCargaDocente">
+                    <!-- Alumnos dinámicos -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bg-card-dark border-top-main" style="padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                <div class="text-muted" style="font-size: 0.78rem;">
+                  <i class="fa-solid fa-circle-info text-blue" style="margin-right: 0.35rem;"></i>
+                  Tipeá las notas directamente y usá <kbd class="code-pill">TAB</kbd> o <kbd class="code-pill">ENTER</kbd> para saltar de fila.
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                  <span id="estadoGuardadoDocente" class="text-green" style="font-size: 0.78rem; display: none; align-items: center; gap: 0.35rem;"></span>
+                  <button type="button" id="btnGuardarNotasDocente" class="btn-success" onclick="guardarNotasDocenteGeneral()">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar Calificaciones de la Materia
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACCESOS RÁPIDOS: BOTONES DE PLANILLAS CARGADAS-->
+            <div id="seccionPlanillasGuardadas" class="bg-surface-dark border-subtle" style="border-radius: 10px; padding: 1.1rem 1.25rem; margin-top: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <i class="fa-solid fa-layer-group text-blue" style="font-size: 1rem;"></i>
+                  <h4 class="text-white" style="margin: 0; font-size: 0.92rem; font-weight: 700;">Planillas Cargadas en el Sistema:</h4>
+                  <span id="badgeCantPlanillasBotones" class="badge badge-blue" style="font-size: 0.72rem;">0 cargadas</span>
+                </div>
+                <span class="text-muted" style="font-size: 0.74rem;">
+                  <i class="fa-solid fa-hand-pointer text-blue" style="margin-right: 3px;"></i> Hacé clic en cualquier planilla para abrirla en modal, editar notas o borrarla
+                </span>
+              </div>
+
+              <!-- BARRA DE BÚSQUEDA Y FILTROS POR CURSO O MATERIA -->
+              <div id="barraFiltrosPlanillas" class="barra-filtros-planillas bg-card-alt border-subtle" style="border-radius: 8px; padding: 0.65rem 0.85rem; margin-bottom: 0.95rem; display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; justify-content: space-between;">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; flex: 1; min-width: 260px;">
+                  
+                  <!-- Buscador por texto libre (Materia, Curso o Período) -->
+                  <div class="padron-search-box" style="flex: 1; min-width: 220px; position: relative; padding: 0.35rem 0.65rem;">
+                    <i class="fa-solid fa-magnifying-glass text-dim" style="font-size: 0.82rem;"></i>
+                    <input 
+                      type="text" 
+                      id="inputBuscarPlanillaTexto" 
+                      placeholder="Buscar por materia o curso (ej. Lengua, 4° I, Geografía...)" 
+                      oninput="filtrarBotonesPlanillas()" 
+                      class="text-white" style="flex: 1; min-width: 140px; background: transparent; border: none; font-size: 0.82rem; outline: none;"
+                    >
+                    <button 
+                      type="button" 
+                      id="btnLimpiarTextoPlanilla" 
+                      onclick="limpiarTextoBuscarPlanilla()" 
+                      title="Borrar texto" 
+                      class="text-dim" style="background: transparent; border: none; cursor: pointer; font-size: 0.8rem; padding: 0 4px; display: none;"
+                    >
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+
+                  <!-- Filtro selector por Curso (muestra por curso de a 1) -->
+                  <div style="min-width: 160px; flex: 0 1 210px;">
+                    <select 
+                      id="selectFiltroPlanillaCurso" 
+                      class="select-carga-materias" 
+                      onchange="alCambiarFiltroPlanillaCurso(this.value)" 
+                      style="padding: 0.42rem 0.65rem; font-size: 0.8rem; height: 34px;"
+                      title="Ver planillas por curso (de a 1 curso)"
+                    >
+                    </select>
+                  </div>
+
+                  <!-- Filtro selector por Período (Trimestre o Cuatrimestre según institución) -->
+                  <div style="min-width: 180px; flex: 0 1 230px;">
+                    <select 
+                      id="selectFiltroPlanillaPeriodo" 
+                      class="select-carga-materias" 
+                      onchange="filtrarBotonesPlanillas()" 
+                      style="padding: 0.42rem 0.65rem; font-size: 0.8rem; height: 34px;"
+                      title="Filtrar planillas por período (trimestres o cuatrimestres)"
+                    >
+                      <option value="">Todos los períodos</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Botón de reset y resumen de resultados -->
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span id="labelContadorFiltroPlanillas" class="text-muted" style="font-size: 0.75rem; font-weight: 600;"></span>
+                  <button 
+                    type="button" 
+                    id="btnLimpiarTodosFiltrosPlanillas" 
+                    onclick="limpiarTodosFiltrosPlanillas()" 
+                    class="btn btn-outline btn-tab border-main text-secondary" style="display: none; padding: 0.35rem 0.65rem; font-size: 0.75rem; align-items: center; gap: 0.35rem; border-radius: 6px; cursor: pointer;"
+                    title="Restablecer todos los filtros"
+                  >
+                    <i class="fa-solid fa-rotate-left text-blue"></i> Limpiar filtros
+                  </button>
+                </div>
+              </div>
+
+              <!-- Contenedor de botones interactivos -->
+              <div id="contenedorBotonesPlanillas" style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: stretch;">
+                <!-- Botones generados dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: CONTROL Y REGISTRO DE ASISTENCIAS POR CURSO -->
+      <div id="preceptorPanelAsistencia" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-calendar-check text-blue"></i>
+                Registro Oficial de Asistencias e Inasistencias
+              </h2>
+              <p class="panel-header-sub">
+                Elegí el Curso para cargar los Días Hábiles, Inasistencias Totales y Faltas Justificadas de los estudiantes.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span id="badgeAsistenciaStats" class="badge badge-blue">Cargando matrícula...</span>
+            </div>
+          </div>
+
+          <!-- Card Calendario de Feriados Nacionales y Días No Laborables (Docente / Preceptor) -->
+          <div id="seccionFeriadosPreceptor" class="feriados-calendario-card" style="margin: 0.85rem 1.5rem 0; padding: 0.85rem 1.15rem; border-radius: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid rgba(56, 189, 248, 0.15); padding-bottom: 0.65rem; margin-bottom: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
+                  <i class="fa-solid fa-calendar-days" style="font-size: 1.05rem;"></i>
+                </div>
+                <div>
+                  <div style="color: #fff; font-weight: 700; font-size: 0.88rem;">Feriados Nacionales y Días No Laborables (Sin Clases)</div>
+                  <div style="color: #94a3b8; font-size: 0.75rem;">Calendario oficial República Argentina 2026 • Sincronizado vía API pública</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <label for="selectMesFeriadosPreceptor" style="font-size: 0.78rem; color: #94a3b8; font-weight: 600; margin: 0;">Ver Feriados por Mes:</label>
+                <select id="selectMesFeriadosPreceptor" class="select-mes-feriados" onchange="cambiarMesFeriados(this.value)" style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer;">
+                  <option value="todos">Todo el Año 2026</option>
+                  <option value="1">Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5">Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10" selected>Octubre (Mes actual)</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+                <button type="button" class="btn-tab" style="font-size: 0.72rem; padding: 0.35rem 0.65rem;" onclick="actualizarFeriadosDesdeAPI(true)" title="Recargar desde la API">
+                  <i class="fa-solid fa-arrows-rotate"></i> Actualizar
+                </button>
+              </div>
+            </div>
+            <!-- Contenedor dinámico de feriados -->
+            <div id="listaFeriadosPreceptor" style="display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center;">
+              <span style="color: #94a3b8; font-size: 0.8rem;"><i class="fa-solid fa-spinner fa-spin"></i> Cargando feriados...</span>
+            </div>
+          </div>
+
+          <!-- BARRA DE PARÁMETROS: CURSO, PERÍODO, DÍAS HÁBILES Y ACCIÓN RÁPIDA -->
+          <div class="padron-filtros-bar bg-card-alt border-bottom-main" style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <!-- Selector de Curso -->
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <label for="selectAsistenciaCurso" class="text-muted" style="font-size: 0.82rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.35rem;">
+                <i class="fa-solid fa-graduation-cap text-blue"></i> Curso:
+              </label>
+              <select id="selectAsistenciaCurso" class="select-carga-materias" style="min-width: 230px;" onchange="alCambiarCursoAsistencia(this.value)">
+                <!-- Poblado dinámicamente con Ciclo Básico, Cs. Naturales, Cs. Sociales -->
+              </select>
+            </div>
+
+            <!-- Selector de Período (Trimestre para Formosa / Cuatrimestre para Buenos Aires) -->
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <label for="selectAsistenciaPeriodo" class="text-muted" style="font-size: 0.82rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.35rem;">
+                <i class="fa-solid fa-calendar-days text-blue"></i> Período:
+              </label>
+              <select id="selectAsistenciaPeriodo" class="select-carga-materias" style="min-width: 175px;" onchange="alCambiarPeriodoAsistencia(this.value)">
+                <!-- Poblado dinámicamente según la escuela activa -->
+              </select>
+            </div>
+
+            <!-- Ajuste Rápido de Días Hábiles para el Curso -->
+            <div class="bg-elevated border-main" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.35rem 0.75rem; border-radius: 8px;">
+              <span class="text-secondary" style="font-size: 0.78rem; font-weight: 600;">
+                <i class="fa-solid fa-calendar-day text-blue"></i> Días Hábiles:
+              </span>
+              <input type="number" id="inputDiasHabilesGlobal" value="96" min="1" max="300" class="input-porcentaje-asistencia" style="width: 65px; padding: 0.25rem 0.4rem; font-weight: 700; text-align: center; font-size: 0.85rem;">
+              <button type="button" class="btn-tab" style="font-size: 0.74rem; padding: 0.3rem 0.65rem;" onclick="aplicarDiasHabilesATodos()" title="Aplica este valor de días hábiles a todos los alumnos del curso actual">
+                <i class="fa-solid fa-arrows-rotate"></i> Aplicar a Todos
+              </button>
+            </div>
+
+            <!-- Botón Guardar Asistencias -->
+            <div>
+              <button type="button" id="btnGuardarAsistenciasCurso" class="btn-success" onclick="guardarAsistenciasCurso()" style="padding: 0.55rem 1.25rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem;">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar Asistencias
+              </button>
+            </div>
+          </div>
+
+          <!-- TABLA DE ALUMNOS DEL CURSO -->
+          <div style="padding: 1rem 1.5rem 1.5rem;">
+            <div class="table-responsive">
+              <table class="tabla-sabana">
+                <thead>
+                  <tr>
+                    <th style="width: 45px; text-align: center;">#</th>
+                    <th style="width: 110px;">DNI</th>
+                    <th>Apellido y Nombre</th>
+                    <th style="text-align: center; width: 110px;">
+                      Días Hábiles
+                    </th>
+                    <th class="text-blue" style="text-align: center; width: 125px;">
+                      Total Asistencias
+                    </th>
+                    <th class="text-red" style="text-align: center; width: 130px;">
+                      Total Inasistencias
+                    </th>
+                    <th class="text-green" style="text-align: center; width: 115px;">
+                      Justificadas
+                    </th>
+                    <th style="text-align: center; width: 110px;">
+                      Injustificadas
+                    </th>
+                    <th style="text-align: center; width: 115px;">
+                      % Asistencia
+                    </th>
+                    <th style="text-align: center; width: 135px;">
+                      Estado / Límite
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyAsistenciaAlumnos">
+                  <!-- Poblado dinámicamente según el curso seleccionado -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Contenedor de Paginación de Asistencias (15 alumnos por página) -->
+            <div id="paginacionAsistencia"></div>
+
+            <!-- Resumen Estadístico al pie -->
+            <div id="resumenAsistenciaFooter" style="margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem;">
+              <!-- Tarjetas dinámicas de estadísticas -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: INSTITUCIÓN (CONFIGURACIÓN Y MULTI-ESCUELA) -->
+      <div id="preceptorPanelInstitucion" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-school text-blue"></i>
+                Gestión Institucional de Escuelas
+              </h2>
+              <p class="panel-header-sub">
+                Alterná entre las 2 escuelas del sistema (Formosa y Buenos Aires) y editá sus datos institucionales oficiales.
+              </p>
+            </div>
+            <div>
+              <span class="badge badge-amber" id="badgeRegimenEscolarPreceptor">
+                <i class="fa-solid fa-shield-halved"></i> Formosa • 3 Trimestres con PAIR
+              </span>
+            </div>
+          </div>
+
+          <div style="padding: 1.5rem;">
+            <!-- Sección: Escuelas Registradas -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <h3 class="panel-header-title" style="font-size: 0.95rem;">
+                <i class="fa-solid fa-landmark-flag text-blue"></i> Escuelas en tu Plataforma:
+              </h3>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Hacé clic para cambiar de escuela activa</span>
+            </div>
+
+            <div id="gridInstitucionesCards" class="grid-instituciones">
+              <!-- Renderizado dinámico de tarjetas de escuelas -->
+            </div>
+
+            <!-- Formulario de Edición de la Escuela Activa -->
+            <div class="card bg-card-alt border-subtle" style="padding: 1.25rem; margin-top: 1rem;">
+              <h3 class="panel-header-title" style="font-size: 0.92rem; margin: 0 0 1rem 0;">
+                <i class="fa-solid fa-pen-to-square text-blue"></i> Editar Datos de la Escuela Seleccionada
+              </h3>
+
+              <form onsubmit="guardarDatosInstitucionForm(event)" style="display: flex; flex-direction: column; gap: 1rem; max-width: 680px;">
+                <div class="form-group">
+                  <label for="instNombreInput" style="font-weight: 700;">Nombre Oficial de la Escuela:</label>
+                  <input type="text" id="instNombreInput" class="fb-input" required placeholder="Ej: EPES N° 19 Vuelta de Obligado">
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 1rem;">
+                  <div class="form-group" style="flex: 1;">
+                    <label for="instCueInput" style="font-weight: 700;">CUE / Código de Escuela:</label>
+                    <input type="text" id="instCueInput" class="fb-input" placeholder="Ej: 3400124-00">
+                  </div>
+                  <div class="form-group" style="flex: 1;">
+                    <label for="instNivelSelect" style="font-weight: 700;">Nivel Educativo:</label>
+                    <select id="instNivelSelect" class="fb-input">
+                      <option value="Secundario">Nivel Secundario Común</option>
+                      <option value="Tecnico">Secundaria Técnica</option>
+                      <option value="Adultos">Educación Secundaria de Adultos</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="instSubtituloInput" style="font-weight: 700;">Distrito / Localidad / Delegación Zonal:</label>
+                  <input type="text" id="instSubtituloInput" class="fb-input" placeholder="Ej: Delegación Zonal Pilcomayo | Laguna Naineck">
+                </div>
+
+                <div class="form-group">
+                  <label for="instJurisdiccionSelect" class="text-blue" style="font-weight: 700;">Jurisdicción y Régimen Oficial:</label>
+                  <select id="instJurisdiccionSelect" class="fb-input border-blue" style="font-weight: 700;">
+                    <option value="formosa">Formosa (Secundaria - 3 Trimestres con PAIR y Recuperación Dic)</option>
+                    <option value="pba">Provincia de Buenos Aires (Secundaria - 2 Cuatrimestres RITE: TEA / TEP / TED)</option>
+                  </select>
+                </div>
+
+                <div style="margin-top: 0.5rem; display: flex; gap: 0.75rem;">
+                  <button type="submit" class="btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios de la Escuela
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Sección: Estructura Curricular (Ciclos, Divisiones y Orientaciones) -->
+            <div class="card bg-card-alt border-subtle" style="padding: 1.25rem; margin-top: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+                <div>
+                  <h3 class="panel-header-title" style="font-size: 1.05rem; margin: 0;">
+                    <i class="fa-solid fa-layer-group text-blue"></i> Estructura Curricular: Ciclos, Divisiones y Orientaciones
+                  </h3>
+                  <p class="panel-header-sub" style="margin: 0.25rem 0 0 0; font-size: 0.78rem;">
+                    Configurá los ciclos (Básico y Orientado), divisiones y nombres de orientaciones (Ciencias Naturales, Ciencias Sociales, etc.) sincronizados con la base de datos.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Filtros de Ciclos (Pills) -->
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #1e293b; padding-bottom: 0.75rem; flex-wrap: wrap;">
+                <button type="button" class="btn-filter-pill active" id="btnFiltroCicloTodos" onclick="filtrarVistaCiclos('todos')">
+                  <i class="fa-solid fa-border-all"></i> Todos los Ciclos
+                </button>
+                <button type="button" class="btn-filter-pill" id="btnFiltroCicloBasico" onclick="filtrarVistaCiclos('basico')">
+                  <i class="fa-solid fa-book-open"></i> Ciclo Básico (1° a 3° Año)
+                </button>
+                <button type="button" class="btn-filter-pill" id="btnFiltroCicloOrientado" onclick="filtrarVistaCiclos('orientado')">
+                  <i class="fa-solid fa-compass"></i> Ciclo Orientado (4° a 6° Año)
+                </button>
+              </div>
+
+              <!-- Contenedor dinámico de Ciclos, Orientaciones y Cursos -->
+              <div id="contenedorEstructuraCurricular">
+                <!-- Se puebla dinámicamente con renderizarEstructuraCurricular() -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: ALUMNOS Y CURSOS (PADRÓN) -->
+      <div id="preceptorPanelAlumnos" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-users text-blue"></i>
+                Padrón Escolar de Alumnos por Curso
+              </h2>
+              <p class="panel-header-sub">
+                Gestión de matrícula escolar, estudiantes y tutores organizados por ciclo, curso y división.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.65rem; align-items: center;">
+              <button type="button" class="btn-toolbar-action btn-toolbar-primary" onclick="abrirModalNuevoAlumno()">
+                <i class="fa-solid fa-user"></i> Cargar Alumno / Tutor
+              </button>
+            </div>
+          </div>
+
+          <!-- BARRA DE FILTROS POR CURSO Y BÚSQUEDA -->
+          <div class="padron-filtros-bar">
+            <!-- Selector Único de Cursos -->
+            <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+              <label for="selectPadronFiltroCurso" class="text-muted" style="font-size: 0.82rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                <i class="fa-solid fa-graduation-cap text-blue"></i> Curso / División:
+              </label>
+              <select id="selectPadronFiltroCurso" class="select-carga-materias" style="min-width: 280px;" onchange="alCambiarCursoFiltroPadron(this.value)">
+                <!-- Poblado dinámicamente con Todos los Cursos y listado completo de 1° a 6° año -->
+              </select>
+            </div>
+
+            <!-- Buscador por texto en vivo -->
+            <div class="padron-search-box" style="flex: 1; max-width: 440px;">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="inputBuscarPadron" placeholder="Buscar por alumno, DNI o tutor..." oninput="filtrarPadronAlumnos()">
+            </div>
+          </div>
+
+          <!-- Resumen de matrícula actual -->
+          <div style="padding: 0.65rem 1.5rem 0.25rem; display: flex; justify-content: space-between; align-items: center;">
+            <span id="badgePadronStats" class="text-muted" style="font-size: 0.8rem; font-weight: 600;">
+              Cargando nómina...
+            </span>
+          </div>
+
+          <div style="padding: 0.5rem 1.5rem 1.25rem;">
+            <div class="table-responsive">
+              <table class="tabla-sabana">
+                <thead>
+                  <tr>
+                    <th>Curso / División</th>
+                    <th>DNI Alumno</th>
+                    <th>Apellido y Nombre</th>
+                    <th>Email Alumno</th>
+                    <th>Tutor Asignado</th>
+                    <th>DNI Tutor</th>
+                    <th>Email Tutor</th>
+                    <th style="text-align: center; width: 100px;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyPadronAlumnos">
+                  <!-- Poblado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Contenedor de Paginación del Padrón (15 alumnos por página) -->
+            <div id="paginacionPadron"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: BOLETÍN INDIVIDUAL (VISTA PREVIA DEL PRECEPTOR) -->
+      <div id="preceptorPanelBoletin" style="display: none;">
+        <div class="selector-panel" style="margin-bottom: 1.25rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <span class="text-muted" style="font-weight: 700; font-size: 0.85rem;">
+              <i class="fa-solid fa-user-graduate text-blue"></i> Elegí el alumno para ver su boletín:
+            </span>
+            <select id="selectPreviewAlumno" class="select-preceptor" onchange="cambiarAlumnoDesdeToolbar(this.value)">
+              <!-- Alumnos -->
+            </select>
+          </div>
+        </div>
+
+        <div id="contenedorBoletinPreview">
+          <!-- Aquí se muestra el boletín individual al preceptor -->
+        </div>
+      </div>
+
+      <!-- PANEL 5: GESTIÓN DE MESAS DE EXAMEN (ROL PRECEPTOR) -->
+      <div id="preceptorPanelMesas" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-graduation-cap text-blue"></i>
+                Carga y Gestión de Mesas de Examen
+              </h2>
+              <p class="panel-header-sub">
+                Configurá las mesas oficiales por materia, mes del examen (Diciembre, Febrero, etc.), tribunal docente, fecha y hora.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.65rem; align-items: center;">
+              <button type="button" class="btn-toolbar-action btn-toolbar-primary" onclick="abrirModalCrearMesa()">
+                <i class="fa-solid fa-calendar-check"></i> Crear Nueva Mesa de Examen
+              </button>
+            </div>
+          </div>
+
+          <div style="padding: 1.25rem 1.5rem;">
+            <!-- Tarjetas de Estadísticas de Mesas -->
+            <div id="gridStatsMesasPreceptor" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
+              <!-- Se puebla con renderizarMesasPreceptor() -->
+            </div>
+
+            <!-- Tabla de Mesas de Examen Registradas -->
+            <div class="table-responsive">
+              <table class="tabla-sabana">
+                <thead>
+                  <tr>
+                    <th style="width: 45px; text-align: center;">#</th>
+                    <th>Materia / Asignatura</th>
+                    <th style="text-align: center; width: 140px;">Mes del Examen</th>
+                    <th>Tribunal Docente (Docentes)</th>
+                    <th style="text-align: center; width: 135px;">Día y Hora</th>
+                    <th style="text-align: center; width: 150px;">Alumnos Inscriptos</th>
+                    <th style="text-align: center; width: 95px;">Estado</th>
+                    <th style="text-align: center; width: 140px;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyMesasExamenPreceptor">
+                  <!-- Poblado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 7 PRECEPTOR: GESTIÓN DE NOTIFICACIONES Y COMUNICADOS INSTITUCIONALES -->
+      <div id="preceptorPanelNotificaciones" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-bell text-blue"></i>
+                Gestión de Notificaciones y Comunicados Oficiales
+              </h2>
+              <p class="panel-header-sub">
+                Creá, editá y publicá comunicados institucionales para tutores, estudiantes y la comunidad educativa.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.65rem; align-items: center;">
+              <button type="button" class="btn-toolbar-action btn-toolbar-primary" onclick="abrirModalCrearNotificacion()">
+                <i class="fa-solid fa-bell"></i> Nueva Notificación
+              </button>
+            </div>
+          </div>
+
+          <!-- Métricas de Notificaciones -->
+          <div id="gridStatsNotificacionesPreceptor" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1.25rem 1.5rem 0.5rem 1.5rem;">
+            <!-- Se puebla con renderizarNotificacionesPreceptor() -->
+          </div>
+
+          <!-- Tabla de Notificaciones -->
+          <div style="padding: 1rem 1.5rem 1.5rem 1.5rem;">
+            <div class="table-responsive">
+              <table class="tabla-sabana">
+                <thead>
+                  <tr>
+                    <th style="width: 45px; text-align: center;">#</th>
+                    <th>Título y Comunicado Oficial</th>
+                    <th style="width: 155px; text-align: center;">Categoría</th>
+                    <th style="width: 140px;">Destinatario</th>
+                    <th style="width: 140px; text-align: center;">Emisor / Fecha</th>
+                    <th style="width: 110px; text-align: center;">Prioridad</th>
+                    <th style="width: 140px; text-align: center;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyNotificacionesPreceptor">
+                  <!-- Se puebla con renderizarNotificacionesPreceptor() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- (Se muestra únicamente cuando el rol activo es tutor)-->
+    <div id="vistaTutor" style="display: none;">
+
+      <!-- PANEL 1 TUTOR: BOLETÍN OFICIAL DE CALIFICACIONES -->
+      <div id="tutorPanelBoletin">
+        <!-- Encabezado Institucional del Boletín Oficial -->
+        <header class="card card-header">
+          <!-- Membrete Oficial visible solo en PDF impreso -->
+          <div class="boletin-print-header-top">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span class="text-primary" style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+                República Argentina • Sistema Educativo Nacional
+              </span>
+              <span class="text-dim" style="font-size: 0.78rem; font-weight: 700;">
+                Ciclo Lectivo 2026
+              </span>
+            </div>
+            <hr class="border-top-main" style="border: 0; margin: 0.4rem 0 0.65rem 0;">
+          </div>
+
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <h2 id="escuela-nombre" class="text-white" style="margin: 0; font-size: 1.15rem; font-weight: 700;">-</h2>
+              <span id="escuela-regimen" class="badge badge-blue">-</span>
+            </div>
+            <p id="escuela-subtitulo" class="text-muted" style="margin: 0.25rem 0 0 0; font-size: 0.8rem;">-</p>
+            <p id="estudiante-info" class="text-secondary" style="margin: 0.5rem 0 0 0; font-size: 0.85rem; font-weight: 500;">-</p>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+            <button type="button" class="btn-pdf" onclick="window.print()" title="Descargar Boletín en formato PDF">
+              <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+            </button>
+          </div>
+        </header>
+
+        <!-- Tabla Principal de Calificaciones del Alumno -->
+        <section class="card" style="margin-top: 1.25rem;">
+          <div class="card-header">
+            <h3 style="margin: 0; font-size: 0.95rem; font-weight: 700;">Calificaciones del Ciclo Lectivo</h3>
+            <span id="asistencia-info" class="text-amber" style="font-size: 0.8rem; font-weight: 600;">-</span>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead id="thead-materias">
+                <!-- Se dibuja con JavaScript dinámicamente -->
+              </thead>
+              <tbody id="tbody-materias">
+                <!-- Se dibuja con JavaScript dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Bloque Inferior: Previas / Intensificación -->
+        <section class="card" id="seccionBloqueInferiorPrevias" style="margin-top: 1.25rem;">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-book-bookmark text-amber"></i>
+              <h3 id="bloque-inferior-titulo" style="margin: 0; font-size: 0.95rem; font-weight: 700;">-</h3>
+            </div>
+            <div id="btnContenedorAccionPrevia" style="display: none;">
+              <button type="button" class="btn-success" onclick="abrirModalCargarPrevia()" style="padding: 0.35rem 0.85rem; font-size: 0.76rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
+                <i class="fa-solid fa-plus"></i> Cargar Materia Previa
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead id="thead-inferior">
+                <!-- Se dibuja con JavaScript dinámicamente -->
+              </thead>
+              <tbody id="tbody-inferior">
+                <!-- Se dibuja con JavaScript dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Pie de Firmas Oficial (visible solo en impresión PDF) -->
+        <div class="boletin-print-signatures">
+          <div class="firma-col">
+            <div class="firma-linea"></div>
+            <span class="firma-cargo">Firma de la Dirección</span>
+          </div>
+          <div class="firma-col">
+            <div class="firma-linea"></div>
+            <span class="firma-cargo">Firma del Preceptor/a</span>
+          </div>
+          <div class="firma-col">
+            <div class="firma-linea"></div>
+            <span class="firma-cargo">Firma del Tutor/a Responsable</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2 TUTOR: ASISTENCIA Y REGULARIDAD DEL ESTUDIANTE -->
+      <div id="tutorPanelAsistencia" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-calendar-check text-blue"></i>
+                Registro de Asistencia del Estudiante
+              </h2>
+              <p class="panel-header-sub">
+                Seguimiento pedagógico de presentismo, justificaciones y regularidad oficial.
+              </p>
+            </div>
+            <div>
+              <span id="tutorBadgeAsistEstado" class="badge badge-green">Asistencia Regular</span>
+            </div>
+          </div>
+
+          <!-- Card Calendario de Feriados Nacionales y Días No Laborables (Tutor / Estudiante) -->
+          <div id="seccionFeriadosTutor" class="feriados-calendario-card" style="margin: 0.85rem 1.5rem 0; padding: 0.85rem 1.15rem; border-radius: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid rgba(56, 189, 248, 0.15); padding-bottom: 0.65rem; margin-bottom: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
+                  <i class="fa-solid fa-calendar-days" style="font-size: 1.05rem;"></i>
+                </div>
+                <div>
+                  <div style="color: #fff; font-weight: 700; font-size: 0.88rem;">Feriados Nacionales y Días No Laborables (Sin Clases)</div>
+                  <div style="color: #94a3b8; font-size: 0.75rem;">Calendario oficial República Argentina 2026 • Sincronizado vía API pública</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <label for="selectMesFeriadosTutor" style="font-size: 0.78rem; color: #94a3b8; font-weight: 600; margin: 0;">Ver Feriados por Mes:</label>
+                <select id="selectMesFeriadosTutor" class="select-mes-feriados" onchange="cambiarMesFeriados(this.value)" style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer;">
+                  <option value="todos">Todo el Año 2026</option>
+                  <option value="1">Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5">Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10" selected>Octubre (Mes actual)</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+                <button type="button" class="btn-tab" style="font-size: 0.72rem; padding: 0.35rem 0.65rem;" onclick="actualizarFeriadosDesdeAPI(true)" title="Recargar desde la API">
+                  <i class="fa-solid fa-arrows-rotate"></i> Actualizar
+                </button>
+              </div>
+            </div>
+            <!-- Contenedor dinámico de feriados -->
+            <div id="listaFeriadosTutor" style="display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center;">
+              <span style="color: #94a3b8; font-size: 0.8rem;"><i class="fa-solid fa-spinner fa-spin"></i> Cargando feriados...</span>
+            </div>
+          </div>
+
+          <div style="padding: 1.25rem 1.5rem;">
+            <!-- Grid de Métricas Principales del Estudiante -->
+            <div id="tutorAsistenciaGridMetricas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+              <!-- Se llena con renderizarAsistenciaTutor() -->
+            </div>
+
+            <!-- Barra de Progreso y Termómetro de Regularidad -->
+            <div class="card bg-card-alt border-subtle" style="border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
+                <span class="text-white" style="font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 0.45rem;">
+                  <i class="fa-solid fa-chart-line text-blue"></i> Porcentaje de Asistencia Acumulada
+                </span>
+                <span id="tutorAsistPorcentajeTexto" class="text-green" style="font-weight: 800; font-size: 1.1rem;">-</span>
+              </div>
+              <div class="asistencia-progreso-track">
+                <div id="tutorAsistProgressBar" class="asistencia-progreso-fill"></div>
+              </div>
+              <div class="text-muted" style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-top: 0.4rem;">
+                <span>0%</span>
+                <span class="text-red"><i class="fa-solid fa-circle-exclamation"></i> Límite (20 faltas)</span>
+                <span class="text-amber"><i class="fa-solid fa-triangle-exclamation"></i> Alerta (15 faltas)</span>
+                <span class="text-green">100% Óptimo</span>
+              </div>
+              <div id="tutorAsistMensajeRegul" class="banner-alert-success text-green" style="margin-top: 0.85rem; font-size: 0.82rem; display: flex; align-items: center; gap: 0.5rem;">
+                <!-- Dinámico -->
+              </div>
+            </div>
+
+            <!-- Cuadro Informativo: Protocolo de Justificación de Inasistencias -->
+            <div class="bg-card-alt border-main" style="border-radius: 8px; padding: 1.15rem;">
+              <h4 class="text-white" style="margin: 0 0 0.65rem 0; font-size: 0.88rem; display: flex; align-items: center; gap: 0.45rem;">
+                <i class="fa-solid fa-circle-info text-blue"></i> Pautas de Asistencia y Justificación
+              </h4>
+              <ul class="text-secondary" style="margin: 0; padding-left: 1.25rem; font-size: 0.8rem; line-height: 1.6;">
+                <li><strong>Plazo reglamentario:</strong> Los certificados médicos deben presentarse en la preceptoría dentro de las <strong>48 horas hábiles</strong> de producida la inasistencia.</li>
+                <li><strong>Límite preventivo de faltas:</strong> Al acumular <strong>15 inasistencias</strong> se emite el primer informe preventivo a las familias.</li>
+                <li><strong>Reincorporación:</strong> Con <strong>20 inasistencias</strong> se requiere solicitud formal de reincorporación suscripta por el tutor ante la Dirección.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3 TUTOR: MESAS DE EXAMEN Y PREVIAS -->
+      <div id="tutorPanelMesas" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-graduation-cap text-blue"></i>
+                Mesas de Examen y Espacios Pendientes
+              </h2>
+              <p class="panel-header-sub">
+                Cronograma oficial de fechas, turnos de examen y materias pendientes de acreditación.
+              </p>
+            </div>
+            <div>
+              <span id="tutorBadgeMesasCant" class="badge badge-amber">Materias a Rendir</span>
+            </div>
+          </div>
+
+          <div style="padding: 1.25rem 1.5rem;">
+            <!-- Tabla de materias previas / pendientes del estudiante -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <div class="card-header bg-surface" style="padding: 0.85rem 1.25rem;">
+                <h3 class="panel-header-title" style="font-size: 0.92rem;">
+                  <i class="fa-solid fa-clock-rotate-left text-amber"></i>
+                  Espacios Curriculares Pendientes del Estudiante
+                </h3>
+              </div>
+              <div class="table-responsive">
+                <table class="tabla-sabana">
+                  <thead>
+                    <tr>
+                      <th style="width: 45px; text-align: center;">#</th>
+                      <th>Tipo / Régimen</th>
+                      <th>Curso de Origen</th>
+                      <th>Materia / Espacio Curricular</th>
+                      <th style="text-align: center; width: 140px;">Condición</th>
+                      <th style="text-align: center; width: 160px;">Turno Estimado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyTutorMesasPrevias">
+                    <!-- Dinámico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SECCIÓN B: MESAS DE EXAMEN DISPONIBLES PARA INSCRIPCIÓN -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <div class="card-header bg-surface" style="padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                <h3 class="panel-header-title" style="font-size: 0.92rem;">
+                  <i class="fa-solid fa-pen-clip text-blue"></i>
+                  Mesas de Examen Habilitadas - Inscripción Online
+                </h3>
+                <span id="badgeTutorMesasDisponibles" class="badge badge-blue">Cargando mesas...</span>
+              </div>
+              <div class="table-responsive">
+                <table class="tabla-sabana">
+                  <thead>
+                    <tr>
+                      <th style="width: 45px; text-align: center;">#</th>
+                      <th>Materia / Asignatura</th>
+                      <th style="text-align: center; width: 140px;">Mes del Examen</th>
+                      <th>Tribunal de Profesores</th>
+                      <th style="text-align: center; width: 135px;">Día y Hora</th>
+                      <th style="text-align: center; width: 140px;">Condición</th>
+                      <th style="text-align: center; width: 180px;">Inscripción del Alumno</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyTutorMesasInscripcion">
+                    <!-- Dinámico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SECCIÓN C: MIS INSCRIPCIONES CONFIRMADAS -->
+            <div id="boxMisInscripcionesTutor" class="card border-green" style="margin-bottom: 1.5rem; display: none;">
+              <div class="card-header bg-green-subtle" style="padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="text-green" style="margin: 0; font-size: 0.92rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                  <i class="fa-solid fa-circle-check"></i>
+                  Inscripciones Confirmadas de tu Hijo/a
+                </h3>
+                <span id="badgeCantInscripcionesConfirmadas" class="badge badge-green">0 Mesas</span>
+              </div>
+              <div style="padding: 1rem 1.25rem;" id="listaMisInscripcionesConfirmadas">
+                <!-- Tarjetas dinámicas de confirmación -->
+              </div>
+            </div>
+
+            <!-- Cronograma de Turnos Oficiales de Examen 2026/2027 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+              <div class="card bg-card-alt border-subtle" style="border-radius: 8px; padding: 1.15rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <div class="icon-box-primary">
+                    <i class="fa-solid fa-snowflake"></i>
+                  </div>
+                  <div>
+                    <div class="text-white" style="font-weight: 700; font-size: 0.9rem;">Turno Diciembre 2026</div>
+                    <div class="text-muted" style="font-size: 0.74rem;">Mesas Regulares e Intensificación</div>
+                  </div>
+                </div>
+                <div class="text-secondary" style="font-size: 0.78rem; line-height: 1.5;">
+                  <div><strong>Inscripción en Secretaría:</strong> 01 al 05 de Diciembre 2026</div>
+                  <div><strong>Semanas de Examen:</strong> 10 al 22 de Diciembre 2026</div>
+                </div>
+              </div>
+
+              <div class="card bg-card-alt border-subtle" style="border-radius: 8px; padding: 1.15rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <div class="icon-box-warning">
+                    <i class="fa-solid fa-sun"></i>
+                  </div>
+                  <div>
+                    <div class="text-white" style="font-weight: 700; font-size: 0.9rem;">Turno Febrero / Marzo 2027</div>
+                    <div class="text-muted" style="font-size: 0.74rem;">Período PAIR / Intensificación RITE</div>
+                  </div>
+                </div>
+                <div class="text-secondary" style="font-size: 0.78rem; line-height: 1.5;">
+                  <div><strong>Inscripción en Secretaría:</strong> 10 al 15 de Febrero 2027</div>
+                  <div><strong>Semanas de Examen:</strong> 18 de Febrero al 05 de Marzo 2027</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Requisitos para rendir -->
+            <div class="bg-card-alt border-main" style="border-radius: 8px; padding: 1.15rem;">
+              <h4 class="text-white" style="margin: 0 0 0.5rem 0; font-size: 0.88rem; display: flex; align-items: center; gap: 0.45rem;">
+                <i class="fa-solid fa-id-card text-blue"></i> Requisitos Obligatorios para la Mesa de Examen
+              </h4>
+              <p class="text-secondary" style="margin: 0; padding-left: 1.25rem; font-size: 0.8rem; line-height: 1.6;">
+                El estudiante debe concurrir con DNI original en mano, vestimenta institucional adecuada, el programa de examen de la materia y útiles personales. Presentarse 15 minutos antes del horario oficial.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 4 TUTOR: NOTIFICACIONES INSTITUCIONALES -->
+      <div id="tutorPanelNotificaciones" style="display: none;">
+        <div class="panel-preceptor-card">
+          <div class="panel-preceptor-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 class="panel-header-title">
+                <i class="fa-solid fa-bell text-blue"></i>
+                Comunicaciones Oficiales para Familias
+              </h2>
+              <p class="panel-header-sub">
+                Avisos institucionales, fechas de reuniones de tutores y comunicados de la institución.
+              </p>
+            </div>
+            <div>
+              <span id="badgeTutorNotifCount" class="badge badge-blue"><i class="fa-solid fa-envelope"></i> 0 Avisos Disponibles</span>
+            </div>
+          </div>
+
+          <div id="contenedorNotificacionesTutor" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Poblado dinámicamente con renderizarNotificacionesTutor() -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- MODAL: VER, EDITAR O BORRAR PLANILLA GUARDADA-->
+  <div id="modalEditarPlanillaGuardada" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-xl">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div class="icon-box-primary">
+            <i class="fa-solid fa-file-pen" style="font-size: 1.1rem;"></i>
+          </div>
+          <div>
+            <h3 id="modalPlanillaTitulo" class="text-white" style="margin: 0; font-size: 1.05rem; font-weight: 700;">Planilla de Calificaciones</h3>
+            <p id="modalPlanillaSubtitulo" class="text-muted" style="margin: 0.15rem 0 0; font-size: 0.78rem;">Edición directa y control de notas de la materia</p>
+          </div>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalEditarPlanilla()">&times;</button>
+      </div>
+
+      <!-- Barra informativa y estadísticas de la planilla -->
+      <div class="bg-surface-dark border-bottom-main" style="padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div id="modalPlanillaBadges" style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <!-- Badges dinámicos de Curso, Materia y Período -->
+        </div>
+        <div id="modalPlanillaFecha" class="text-muted" style="font-size: 0.78rem;">
+          <!-- Fecha de guardado -->
+        </div>
+      </div>
+
+      <!-- Cuerpo con la Tabla Desplazable de Alumnos -->
+      <div class="modal-body-scroll" style="max-height: 52vh;">
+        <div class="tabla-sabana-container">
+          <table class="tabla-sabana">
+            <thead id="modalPlanillaThead">
+              <!-- Encabezado dinámico -->
+            </thead>
+            <tbody id="modalPlanillaTbody">
+              <!-- Filas de alumnos dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Footer con acciones: Borrar por completo, Cancelar, Guardar Cambios -->
+      <div class="modal-footer" style="padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" class="btn-cancelar banner-alert-danger text-red" onclick="borrarPlanillaDesdeModal()" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem;">
+          <i class="fa-solid fa-trash-can"></i> Borrar Planilla y Vaciar Notas
+        </button>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-tab text-secondary" onclick="cargarPlanillaEnPanelPrincipal(planillaActivaEdicionId); cerrarModalEditarPlanilla();" style="font-size: 0.8rem; padding: 0.5rem 0.85rem;" title="Cargar este curso y materia en los selectores principales de arriba">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir en Editor Principal
+          </button>
+          <button type="button" class="btn-cancelar" onclick="cerrarModalEditarPlanilla()">Cerrar</button>
+          <button type="button" id="btnGuardarCambiosModalPlanilla" class="btn-success" onclick="guardarCambiosModalPlanilla()" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Modificaciones
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMACIÓN DE BORRADO DE PLANILLA-->
+  <div id="modalConfirmarBorradoPlanilla" class="modal-overlay" style="display: none; z-index: 100000;" onclick="cerrarModalConfirmarBorrado(event)">
+    <div class="modal-card modal-card modal-body-danger" onclick="event.stopPropagation()" style="max-width: 470px;">
+      <div style="padding: 1.6rem 1.6rem 1.35rem; text-align: center;">
+        
+        <!-- Ícono Destacado de Advertencia -->
+        <div class="icon-circle-danger">
+          <i class="fa-solid fa-trash-can text-red" style="font-size: 1.5rem;"></i>
+        </div>
+
+        <h3 class="text-white" style="margin: 0; font-size: 1.18rem; font-weight: 800;">¿Eliminar Planilla Completa?</h3>
+        <p class="text-muted" style="margin: 0.4rem 0 1.25rem; font-size: 0.83rem; line-height: 1.45;">
+          Esta acción vaciará de forma permanente todas las notas y observaciones cargadas para esta materia y período.
+        </p>
+
+        <!-- Ficha Resumen de la Planilla Seleccionada -->
+        <div class="bg-card-alt border-subtle" style="border-radius: 9px; padding: 0.9rem 1.1rem; margin-bottom: 1.15rem; text-align: left;">
+          <div class="border-bottom-main" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding-bottom: 0.5rem;">
+            <span class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Materia:</span>
+            <strong id="modalBorrarMateriaTexto" class="text-white" style="font-size: 0.9rem;">-</strong>
+          </div>
+          <div class="border-bottom-main" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding-bottom: 0.5rem;">
+            <span class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Curso / División:</span>
+            <span id="modalBorrarCursoTexto" class="text-blue" style="font-weight: 700; font-size: 0.86rem;">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Período Oficial:</span>
+            <span id="modalBorrarPeriodoTexto" class="badge badge-amber" style="font-size: 0.72rem; padding: 2px 8px;">-</span>
+          </div>
+        </div>
+
+        <div class="banner-alert-danger" style="margin-bottom: 1.35rem; font-size: 0.77rem; text-align: left; display: flex; align-items: flex-start; gap: 0.55rem;">
+          <i class="fa-solid fa-triangle-exclamation text-red" style="margin-top: 2px; flex-shrink: 0; font-size: 0.85rem;"></i>
+          <span>Si cargaste notas por error o en el curso equivocado, podés borrarla sin alterar las calificaciones de las demás materias.</span>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-modal-cancelar" onclick="cerrarModalConfirmarBorrado()" style="flex: 1;">
+            <i class="fa-solid fa-arrow-left"></i> Cancelar
+          </button>
+          <button type="button" id="btnEjecutarBorradoPlanilla" class="btn-modal-eliminar" onclick="ejecutarBorradoPlanillaConfirmada()" style="flex: 1.35;">
+            <i class="fa-solid fa-trash-can text-white"></i> Sí, Eliminar Planilla
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL UNIVERSAL: CONFIRMACIÓN DE ELIMINACIÓN ELEGANTE -->
+  <div id="modalConfirmacionUniversal" class="modal-overlay" style="display: none; z-index: 100000;" onclick="cerrarModalConfirmacionUniversal(event)">
+    <div class="modal-card modal-body-danger" onclick="event.stopPropagation()" style="max-width: 475px;">
+      <div style="padding: 1.6rem 1.6rem 1.35rem; text-align: center;">
+        
+        <!-- Ícono Destacado de Advertencia con Glow -->
+        <div class="icon-circle-danger">
+          <i id="modalConfirmarIcono" class="fa-solid fa-trash-can text-red" style="font-size: 1.55rem;"></i>
+        </div>
+
+        <h3 id="modalConfirmarTitulo" class="text-white" style="margin: 0; font-size: 1.18rem; font-weight: 800; letter-spacing: -0.01em;">
+          ¿Confirmar Eliminación?
+        </h3>
+        <p id="modalConfirmarMensaje" class="text-muted" style="margin: 0.4rem 0 1.25rem; font-size: 0.83rem; line-height: 1.45;">
+          Esta acción no se puede deshacer una vez confirmada.
+        </p>
+
+        <!-- Ficha de Resumen / Detalles del elemento a eliminar -->
+        <div id="modalConfirmarDetalles" class="bg-card-alt border-subtle" style="border-radius: 9px; padding: 0.85rem 1.1rem; margin-bottom: 1.15rem; text-align: left; display: none;">
+          <!-- Se puebla dinámicamente con filas clave-valor -->
+        </div>
+
+        <!-- Banner de Advertencia -->
+        <div id="modalConfirmarAlerta" class="banner-alert-danger" style="margin-bottom: 1.35rem; font-size: 0.77rem; text-align: left; display: flex; align-items: flex-start; gap: 0.55rem;">
+          <i class="fa-solid fa-triangle-exclamation text-red" style="margin-top: 2px; flex-shrink: 0; font-size: 0.85rem;"></i>
+          <span id="modalConfirmarAlertaTexto">Los datos asociados a este registro serán removidos permanentemente del sistema.</span>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-modal-cancelar" onclick="cerrarModalConfirmacionUniversal()" style="flex: 1;">
+            <i class="fa-solid fa-arrow-left"></i> Cancelar
+          </button>
+          <button type="button" id="btnEjecutarConfirmacionUniversal" class="btn-modal-eliminar" onclick="ejecutarAccionConfirmada()" style="flex: 1.35;">
+            <i class="fa-solid fa-trash-can text-white"></i> <span id="modalConfirmarBotonTexto">Sí, Eliminar</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  
+  <!-- MODAL: GESTIÓN DE ALUMNO Y TUTOR EN PADRÓN-->
+  <div id="modalPadronAlumno" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-padron-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div class="icon-box-primary">
+            <i class="fa-solid fa-user-gear" style="font-size: 1.1rem;"></i>
+          </div>
+          <div>
+            <h3 id="modalPadronTitulo" class="text-white" style="margin: 0; font-size: 1.05rem; font-weight: 700;">Cargar Alumno y Tutor</h3>
+            <p id="modalPadronSubtitulo" class="text-muted" style="margin: 0.15rem 0 0; font-size: 0.78rem;">Completá la ficha del estudiante y de su tutor responsable</p>
+          </div>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalPadronAlumno()">&times;</button>
+      </div>
+
+      <form novalidate onsubmit="guardarAlumnoPadron(event)" style="display: flex; flex-direction: column; overflow: hidden; margin: 0;">
+        <input type="hidden" id="padronDniOriginal" value="">
+        <input type="hidden" id="padronIdEstudiante" value="">
+
+        <div class="modal-body modal-padron-grid">
+          <!-- Sección Estudiante -->
+          <div class="bg-card-alt border-subtle" style="border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="text-blue" style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                <i class="fa-solid fa-graduation-cap"></i> 1. DATOS DEL ALUMNO
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label for="padronEstNombre">Apellido y Nombre del Alumno:</label>
+                <input type="text" id="padronEstNombre" class="fb-input" required autocomplete="off" placeholder="Ej: Gomez, Mateo" oninput="formatearNombreInput(this); limpiarErrorCampo(this);">
+                <span class="campo-error-msg" id="error_padronEstNombre" style="display: none;"></span>
+              </div>
+
+              <div class="form-row" style="display: flex; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <div class="form-group" style="flex: 1;">
+                  <label for="padronEstDni">DNI del Alumno:</label>
+                  <input type="text" id="padronEstDni" class="fb-input" required maxlength="8" minlength="8" inputmode="numeric" placeholder="Ej: 34567890" oninput="formatearDniInput(this); limpiarErrorCampo(this);">
+                  <span class="campo-error-msg" id="error_padronEstDni" style="display: none;"></span>
+                </div>
+                <div class="form-group" style="flex: 1.3;">
+                  <label for="padronEstEmail">Correo del Alumno:</label>
+                  <input type="email" id="padronEstEmail" class="fb-input" required placeholder="Ej: mateo.gomez@escuela.edu.ar" oninput="limpiarErrorCampo(this);">
+                  <span class="campo-error-msg" id="error_padronEstEmail" style="display: none;"></span>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="padronCursoSelect">Curso y División Asignada:</label>
+                <select id="padronCursoSelect" class="fb-input" required onchange="limpiarErrorCampo(this);">
+                  <!-- Poblado dinámicamente con optgroups (Ciclo Básico, Ciencias Naturales, Ciencias Sociales) -->
+                </select>
+                <span class="campo-error-msg" id="error_padronCursoSelect" style="display: none;"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Tutor -->
+          <div class="bg-card-alt border-subtle" style="border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="text-green" style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                <i class="fa-solid fa-user-shield"></i> 2. TUTOR O RESPONSABLE
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label for="padronTutorNombre">Apellido y Nombre del Tutor:</label>
+                <input type="text" id="padronTutorNombre" class="fb-input" required autocomplete="off" placeholder="Ej: Gomez, Pedro" oninput="formatearNombreInput(this); limpiarErrorCampo(this);">
+                <span class="campo-error-msg" id="error_padronTutorNombre" style="display: none;"></span>
+              </div>
+
+              <div class="form-row" style="display: flex; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <div class="form-group" style="flex: 1;">
+                  <label for="padronTutorDni">DNI del Tutor:</label>
+                  <input type="text" id="padronTutorDni" class="fb-input" required maxlength="8" minlength="8" inputmode="numeric" placeholder="Ej: 28456123" oninput="formatearDniInput(this); limpiarErrorCampo(this);">
+                  <span class="campo-error-msg" id="error_padronTutorDni" style="display: none;"></span>
+                </div>
+                <div class="form-group" style="flex: 1.3;">
+                  <label for="padronTutorEmail">Email del Tutor:</label>
+                  <input type="email" id="padronTutorEmail" class="fb-input" required placeholder="Ej: pedro@gmail.com" oninput="limpiarErrorCampo(this);">
+                  <span class="campo-error-msg" id="error_padronTutorEmail" style="display: none;"></span>
+                </div>
+              </div>
+
+              <div class="banner-alert-success" style="display: flex; align-items: flex-start; gap: 0.45rem;">
+                <i class="fa-solid fa-shield-halved text-white" style="margin-top: 0.15rem; font-size: 0.8rem;"></i>
+                <span class="text-muted" style="font-size: 0.73rem; line-height: 1.35;">El tutor ingresará con su correo electrónico o cuenta de Google para consultar las calificaciones y el boletín escolar oficial.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-top-main bg-card" style="padding: 0.85rem 1.25rem; display: flex; justify-content: flex-end; gap: 0.65rem;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalPadronAlumno()">Cancelar</button>
+          <button type="submit" class="btn-success" id="btnGuardarAlumnoPadron">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Alumno
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 1: CREAR / EDITAR MESA DE EXAMEN (ROL PRECEPTOR) -->
+  <div id="modalMesaExamen" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-lg" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="tituloModalMesa" class="panel-header-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-graduation-cap text-blue"></i> Cargar Mesa de Examen
+          </h3>
+          <p class="text-muted" style="margin: 2px 0 0; font-size: 0.75rem;">
+            Configurá la materia, mes del examen (Diciembre, Febrero, etc.), tribunal de docentes, fecha y horario
+          </p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalMesaExamen()">&times;</button>
+      </div>
+
+      <form onsubmit="guardarMesaExamenForm(event)" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+        <input type="hidden" id="inputMesaId" value="">
+
+        <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="form-group" style="flex: 1.5; min-width: 220px;">
+            <label for="inputMesaMateria" class="text-white" style="font-weight: 700;">Materia / Espacio Curricular:</label>
+            <input type="text" id="inputMesaMateria" class="fb-input" required placeholder="Ej: Matemática, Lengua, Física, Geografía...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 180px;">
+            <label for="inputMesaCurso" class="text-white" style="font-weight: 700;">
+              <i class="fa-solid fa-graduation-cap text-blue"></i> Curso / Ciclo Educativo:
+            </label>
+            <input type="text" id="inputMesaCurso" class="fb-input" required list="datalistCursosMesa" placeholder="Ej: 2° III, 1° Año, 4° Única...">
+            <datalist id="datalistCursosMesa">
+              <option value="2° III">
+              <option value="1° Año">
+              <option value="2° Año">
+              <option value="3° Año">
+              <option value="4° Única">
+              <option value="4° Cs. Naturales">
+              <option value="4° Cs. Sociales">
+              <option value="5° Cs. Naturales">
+              <option value="5° Cs. Sociales">
+              <option value="6° Cs. Naturales">
+              <option value="6° Cs. Sociales">
+              <option value="Ciclo Básico">
+              <option value="Ciclo Orientado">
+            </datalist>
+          </div>
+        </div>
+
+        <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="form-group" style="flex: 1.2; min-width: 200px;">
+            <label for="selectMesaMes" class="text-amber" style="font-weight: 700;">
+              <i class="fa-solid fa-calendar"></i> Mes de la Mesa de Examen:
+            </label>
+            <select id="selectMesaMes" class="fb-input">
+              <option value="Diciembre">Diciembre (Turno Regular / Fin de Año)</option>
+              <option value="Febrero / Marzo">Febrero / Marzo (Turno Complementario)</option>
+              <option value="Julio">Julio (Mesas de Invierno)</option>
+              <option value="Octubre">Octubre (Mesa Especial de Previas)</option>
+              <option value="Marzo">Marzo (Mesa Extraordinaria)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 180px;">
+            <label for="selectMesaTurno" class="text-white" style="font-weight: 700;">Turno / Régimen:</label>
+            <select id="selectMesaTurno" class="fb-input">
+              <option value="Turno Diciembre 2026">Turno Diciembre 2026</option>
+              <option value="Turno Febrero / Marzo 2027">Turno Febrero / Marzo 2027</option>
+              <option value="Mesa Especial de Previas">Mesa Especial de Previas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMesaDocentes" class="text-white" style="font-weight: 700;">Tribunal Docente (Presidente y Vocales):</label>
+          <input type="text" id="inputMesaDocentes" class="fb-input" required placeholder="Ej: Prof. Ramírez, Prof. Gómez, Prof. Martínez">
+        </div>
+
+        <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="form-group" style="flex: 1.2; min-width: 160px;">
+            <label for="inputMesaFecha" class="text-white" style="font-weight: 700;">Día de la Mesa (Fecha):</label>
+            <input type="date" id="inputMesaFecha" class="fb-input" required>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 130px;">
+            <label for="inputMesaHora" class="text-white" style="font-weight: 700;">Horario de la Mesa:</label>
+            <input type="time" id="inputMesaHora" class="fb-input" required value="08:00">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 160px;">
+            <label for="selectMesaEstado" class="text-white" style="font-weight: 700;">Estado de Inscripción:</label>
+            <select id="selectMesaEstado" class="fb-input">
+              <option value="abierta">Abierta (Habilitada)</option>
+              <option value="cerrada">Cerrada</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer border-top-main" style="padding-top: 0.75rem; display: flex; justify-content: flex-end; gap: 0.65rem;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalMesaExamen()">Cancelar</button>
+          <button type="submit" class="btn-success">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Mesa de Examen
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: VER ALUMNOS INSCRIPTOS EN UNA MESA (ROL PRECEPTOR) -->
+  <div id="modalVerInscriptosMesa" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-lg" style="max-width: 780px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="panel-header-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-users text-blue"></i> Padrón de Alumnos Inscriptos a la Mesa
+          </h3>
+          <p id="subtituloInscriptosMesa" class="text-muted" style="margin: 2px 0 0; font-size: 0.75rem;">-</p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalVerInscriptos()">&times;</button>
+      </div>
+
+      <div style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div id="badgeTotalInscriptosMesa" class="badge badge-blue">0 Alumnos Inscriptos</div>
+          <button type="button" class="btn-tab" onclick="imprimirActaMesa()" style="font-size: 0.78rem;">
+            <i class="fa-solid fa-print"></i> Imprimir Acta de Examen
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="tabla-sabana">
+            <thead>
+              <tr>
+                <th style="width: 40px; text-align: center;">#</th>
+                <th style="width: 95px;">DNI</th>
+                <th>Apellido y Nombre</th>
+                <th style="width: 100px;">Curso</th>
+                <th style="width: 120px; text-align: center;">Condición</th>
+                <th style="width: 150px; text-align: center;">Fecha Inscripción</th>
+                <th style="width: 80px; text-align: center;">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyInscriptosMesa">
+              <!-- Dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer border-top-main" style="padding: 0.85rem 1.25rem; display: flex; justify-content: flex-end;">
+        <button type="button" class="btn-cancelar" onclick="cerrarModalVerInscriptos()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2.5: OPCIÓN DE INSCRIPCIÓN (REGULAR O LIBRE) -->
+  <div id="modalInscripcionMesaAlumno" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card modal-body-themed" style="max-width: 760px; width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
+      <div class="modal-header modal-header-themed">
+        <div>
+          <h3 id="tituloModalInscripcionAlumno" class="panel-header-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-pen-to-square text-blue"></i> Inscripción a Mesa de Examen
+          </h3>
+          <p class="text-muted" style="margin: 2px 0 0; font-size: 0.74rem;">
+            Elegí si rendís en condición de alumno Regular o Libre
+          </p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalInscripcionAlumno()">&times;</button>
+      </div>
+
+      <div style="padding: 1rem 1.4rem; display: flex; flex-direction: column; gap: 0.85rem; overflow-y: auto; flex: 1;">
+        <input type="hidden" id="inputInscripcionMesaId" value="">
+
+        <!-- Resumen de la mesa a rendir -->
+        <div id="infoMesaInscripcionAlumno" class="bg-surface border-subtle" style="border-radius: 8px; padding: 0.75rem 1rem;">
+          <!-- Se puebla con JS -->
+        </div>
+
+        <!-- Selección Obligatoria de Condición: Regular o Libre) -->
+        <div>
+          <label class="text-white" style="font-weight: 700; font-size: 0.86rem; display: block; margin-bottom: 0.45rem;">
+            <i class="fa-solid fa-user-tag text-amber" style="margin-right: 4px;"></i> Seleccioná tu Condición de Examen:
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <label class="bg-green-subtle border-green" style="display: flex; align-items: flex-start; gap: 0.65rem; border-radius: 8px; padding: 0.75rem 0.9rem; cursor: pointer;" id="labelCondicionRegular">
+              <input type="radio" name="radioCondicionRendir" value="Regular" checked style="margin-top: 3px;" onchange="alCambiarRadioCondicion()">
+              <div>
+                <strong class="text-green" style="font-size: 0.92rem; display: flex; align-items: center; gap: 0.35rem;">
+                  <i class="fa-solid fa-user-check"></i> Alumno Regular
+                </strong>
+                <p class="text-muted" style="margin: 3px 0 0; font-size: 0.73rem; line-height: 1.35;">
+                  Cursó regularmente la materia. Acreditación de cursada o materia previa regular.
+                </p>
+              </div>
+            </label>
+
+            <label class="bg-surface border-main" style="display: flex; align-items: flex-start; gap: 0.65rem; border-radius: 8px; padding: 0.75rem 0.9rem; cursor: pointer;" id="labelCondicionLibre">
+              <input type="radio" name="radioCondicionRendir" value="Libre" style="margin-top: 3px;" onchange="alCambiarRadioCondicion()">
+              <div>
+                <strong class="text-amber" style="font-size: 0.92rem; display: flex; align-items: center; gap: 0.35rem;">
+                  <i class="fa-solid fa-book-open"></i> Alumno Libre
+                </strong>
+                <p class="text-muted" style="margin: 3px 0 0; font-size: 0.73rem; line-height: 1.35;">
+                  Rinde libre (pérdida de regularidad o materia no cursada). Examen programa completo escrito y oral.
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer modal-footer-themed">
+        <button type="button" class="btn-cancelar" onclick="cerrarModalInscripcionAlumno()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="confirmarInscripcionAlumno()">
+          <i class="fa-solid fa-check"></i> Confirmar Inscripción a la Mesa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: COMPROBANTE OFICIAL DE INSCRIPCIÓN (ROL TUTOR / ALUMNO) -->
+  <div id="modalComprobanteInscripcion" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card modal-body-themed" style="max-width: 960px; width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
+      <div class="modal-header modal-header-themed">
+        <div>
+          <h3 class="panel-header-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-file-circle-check text-white"></i> Constancia Oficial de Inscripción a Mesa de Examen
+          </h3>
+          <p class="text-muted" style="margin: 2px 0 0; font-size: 0.74rem;">Sistema Educativo Nacional • República Argentina • Documento Oficial</p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalComprobante()">&times;</button>
+      </div>
+
+      <div id="cuerpoComprobanteInscripcion" class="text-secondary" style="padding: 1rem 1.4rem; font-size: 0.82rem; line-height: 1.45; overflow-y: auto; flex: 1;">
+        <!-- Dinámico con datos del estudiante y mesa en diseño horizontal 2 columnas -->
+      </div>
+
+      <div class="modal-footer modal-footer-themed" style="justify-content: space-between; align-items: center;">
+        <span class="text-muted" style="font-size: 0.74rem; display: flex; align-items: center; gap: 0.4rem;">
+          <i class="fa-solid fa-shield-halved text-white"></i> Inscripción Oficial Válida y Registrada en el Sistema
+        </span>
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalComprobante()">Cerrar</button>
+          <button type="button" class="btn-primary" onclick="imprimirComprobanteInscripcion()">
+            <i class="fa-solid fa-print"></i> Imprimir Constancia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: CREAR / EDITAR NOTIFICACIÓN INSTITUCIONAL (PRECEPTOR) -->
+  <div id="modalNotificacion" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card-lg modal-card modal-body-themed" style="max-width: 680px; width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
+      <div class="modal-header modal-header-themed">
+        <div>
+          <h3 id="tituloModalNotificacion" class="panel-header-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-bullhorn text-blue"></i> Redactar Notificación Institucional
+          </h3>
+          <p class="text-muted" style="margin: 2px 0 0; font-size: 0.74rem;">
+            El comunicado será publicado inmediatamente en el panel de los tutores y estudiantes
+          </p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalNotificacion()">&times;</button>
+      </div>
+
+      <form onsubmit="guardarNotificacionForm(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <input type="hidden" id="inputNotifId" value="">
+
+        <div style="padding: 1.1rem 1.4rem; display: flex; flex-direction: column; gap: 0.9rem; overflow-y: auto; flex: 1;">
+          
+          <div class="form-group">
+            <label for="inputNotifTitulo" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+              Título del Comunicado / Aviso:
+            </label>
+            <input type="text" id="inputNotifTitulo" class="fb-input" required placeholder="Ej: Convocatoria a Reunión de Tutores, Cierre de Notas...">
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem;">
+            <div class="form-group">
+              <label for="selectNotifCategoria" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+                Categoría:
+              </label>
+              <select id="selectNotifCategoria" class="fb-input" required>
+                <option value="Boletines y Calificaciones">Boletines y Calificaciones</option>
+                <option value="Reunión de Familias">Reunión de Familias</option>
+                <option value="Mesas de Examen">Mesas de Examen</option>
+                <option value="Atención y Preceptoría">Atención y Preceptoría</option>
+                <option value="Institucional y Secretaría">Institucional y Secretaría</option>
+                <option value="Aviso Importante">Aviso Importante / Convivencia</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="selectNotifPrioridad" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+                Nivel de Prioridad / Color:
+              </label>
+              <select id="selectNotifPrioridad" class="fb-input" required>
+                <option value="normal">Informativo Normal (Azul)</option>
+                <option value="alta">Alta / Convocatoria (Ámbar)</option>
+                <option value="urgente">Urgente / Importante (Rojo)</option>
+                <option value="positiva">Institucional / Éxito (Verde)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem;">
+            <div class="form-group">
+              <label for="selectNotifDestinatario" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+                Destinatarios del Aviso:
+              </label>
+              <select id="selectNotifDestinatario" class="fb-input" required>
+                <option value="Todos los Cursos y Familias">Todos los Cursos y Familias</option>
+                <option value="Ciclo Básico (1° a 3° Año)">Ciclo Básico (1° a 3° Año)</option>
+                <option value="Ciclo Orientado (4° a 6° Año)">Ciclo Orientado (4° a 6° Año)</option>
+                <option value="1° Año">1° Año</option>
+                <option value="2° Año">2° Año</option>
+                <option value="3° Año">3° Año</option>
+                <option value="4° Año">4° Año</option>
+                <option value="5° Año">5° Año</option>
+                <option value="6° Año">6° Año</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputNotifEmisor" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+                Emisor / Firma Responsable:
+              </label>
+              <input type="text" id="inputNotifEmisor" class="fb-input" required placeholder="Ej: Preceptoría, Dirección Escolar, Secretaría..." value="Preceptoría">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="textareaNotifContenido" class="text-white" style="font-weight: 700; font-size: 0.86rem;">
+              Mensaje Completo / Contenido:
+            </label>
+            <textarea id="textareaNotifContenido" class="fb-input" rows="4" required placeholder="Escribí aquí el texto del comunicado oficial para las familias..." style="resize: vertical; min-height: 95px; line-height: 1.4;"></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer modal-footer-themed">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalNotificacion()">Cancelar</button>
+          <button type="submit" class="btn-success">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar y Publicar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: VER DETALLE DE NOTIFICACIÓN -->
+  <div id="modalVerNotificacion" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-card modal-body-themed" style="max-width: 600px; width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
+      <div class="modal-header border-dashed">
+        <div>
+          <h3 id="verNotifHeaderTitulo" class="text-white" style="margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 0.45rem;">
+            <i class="fa-solid fa-bell text-blue"></i> Detalle del Comunicado
+          </h3>
+          <p id="verNotifHeaderSub" class="text-muted" style="margin: 2px 0 0; font-size: 0.74rem;">Comunicado Oficial para Tutores y Familias</p>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalVerNotificacion()">&times;</button>
+      </div>
+      <div id="cuerpoVerNotificacion" style="padding: 1.25rem;">
+        <!-- Dinámico -->
+      </div>
+      <div class="modal-footer modal-footer-themed">
+        <button type="button" class="btn-cancelar" onclick="cerrarModalVerNotificacion()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CARGAR O EDITAR MATERIA PREVIA / EQUIVALENCIA -->
+  <div id="modalCargarPrevia" class="modal-overlay" style="display: none; z-index: 100000;" onclick="cerrarModalCargarPrevia(event)">
+    <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 530px; width: 95vw;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div class="icon-box-primary">
+            <i class="fa-solid fa-book-bookmark text-amber" style="font-size: 1.15rem;"></i>
+          </div>
+          <div>
+            <h3 id="modalPreviaTitulo" class="text-white" style="margin: 0; font-size: 1.05rem; font-weight: 700;">Cargar Materia Previa</h3>
+            <p id="modalPreviaSubtitulo" class="text-muted" style="margin: 0.15rem 0 0; font-size: 0.78rem;">Asignación individual y control de aprobación</p>
+          </div>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalCargarPrevia()">&times;</button>
+      </div>
+
+      <form id="formCargarPrevia" onsubmit="guardarPreviaAlumno(event)" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; gap: 0.95rem;">
+        <input type="hidden" id="inputPreviaId" value="">
+        <input type="hidden" id="inputPreviaDni" value="">
+
+        <!-- Badge con nombre del alumno -->
+        <div style="background: #1e293b; border-radius: 8px; padding: 0.65rem 0.9rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155;">
+          <span style="font-size: 0.78rem; color: #94a3b8;"><i class="fa-solid fa-user-graduate text-blue"></i> Estudiante:</span>
+          <strong id="modalPreviaAlumnoNombre" class="text-white" style="font-size: 0.88rem;">-</strong>
+        </div>
+
+        <div>
+          <label class="fb-label">Materia / Espacio Curricular *</label>
+          <input type="text" id="inputPreviaMateria" class="fb-input" required placeholder="Ej: Matemática, Lengua, Inglés..." style="width: 100%;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="fb-label">Condición / Tipo *</label>
+            <select id="selectPreviaTipo" class="fb-input" style="width: 100%;">
+              <option value="Previa">Previa</option>
+              <option value="Equivalencia">Equivalencia</option>
+              <option value="Pendiente de Acreditación">Pendiente de Acreditación</option>
+            </select>
+          </div>
+          <div>
+            <label class="fb-label">Curso de Origen *</label>
+            <select id="selectPreviaCurso" class="fb-input" style="width: 100%;">
+              <option value="1° Año">1° Año</option>
+              <option value="2° Año">2° Año</option>
+              <option value="3° Año">3° Año</option>
+              <option value="4° Año">4° Año</option>
+              <option value="5° Año">5° Año</option>
+              <option value="6° Año">6° Año</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CONDICIÓN: ¿PASÓ LA MATERIA? -->
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 0.9rem 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+            <label class="fb-label" style="margin: 0; font-weight: 700; color: #f1f5f9;">
+              <i class="fa-solid fa-clipboard-check text-blue" style="margin-right: 0.35rem;"></i>
+              ¿Aprobó / Pasó la Materia?
+            </label>
+            <span id="badgeEstadoPreviaModal" class="badge badge-amber">Pendiente</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div>
+              <label class="fb-label" style="font-size: 0.74rem;">Estado de Acreditación *</label>
+              <select id="selectPreviaEstado" class="fb-input" onchange="alCambiarEstadoPreviaModal(this.value)" style="width: 100%;">
+                <option value="Pendiente">Pendiente (Aún no aprobó / A rendir)</option>
+                <option value="Aprobada">Aprobada (Pasó la materia)</option>
+                <option value="En Curso">En Cursada / Intensificación</option>
+              </select>
+            </div>
+            <div>
+              <label class="fb-label" style="font-size: 0.74rem;">Calificación / Nota Obtenida</label>
+              <input type="text" id="inputPreviaNota" class="fb-input" placeholder="Ej: 7, 8, 10 o TEA" style="width: 100%;">
+            </div>
+          </div>
+
+          <!-- Campos específicos si aprobó: Fecha en que aprobó -->
+          <div id="cajaDatosAprobacionPrevia" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed #334155;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div>
+                <label class="fb-label" style="font-size: 0.74rem; color: #86efac;">
+                  <i class="fa-solid fa-calendar-check"></i> Fecha en que aprobó:
+                </label>
+                <input type="date" id="inputPreviaFechaAprobacion" class="fb-input" style="width: 100%;">
+              </div>
+              <div>
+                <label class="fb-label" style="font-size: 0.74rem;">Libro / Folio / Acta (Opcional):</label>
+                <input type="text" id="inputPreviaLibroFolio" class="fb-input" placeholder="Ej: Libro 3, Folio 15" style="width: 100%;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo de turno estimado si está pendiente -->
+          <div id="cajaTurnoEstimadoPrevia" style="margin-top: 0.75rem;">
+            <label class="fb-label" style="font-size: 0.74rem;">Turno / Período de Examen Estimado:</label>
+            <input type="text" id="inputPreviaFecha" class="fb-input" placeholder="Ej: Turno Diciembre 2026, Febrero 2027" style="width: 100%;">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid #334155;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalCargarPrevia()">Cancelar</button>
+          <button type="submit" id="btnGuardarPrevia" class="btn-success" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.25rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Previa
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMAR BORRADO DE MATERIA PREVIA -->
+  <div id="modalConfirmarBorrarPrevia" class="modal-overlay" style="display: none; z-index: 100001;" onclick="cerrarModalConfirmarBorrarPrevia(event)">
+    <div class="modal-card modal-body-danger" onclick="event.stopPropagation()" style="max-width: 480px;">
+      <div style="padding: 1.6rem 1.6rem 1.35rem; text-align: center;">
+        <div class="icon-circle-danger" style="margin: 0 auto 1.1rem; width: 56px; height: 56px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center;">
+          <i class="fa-solid fa-trash-can text-red" style="font-size: 1.6rem;"></i>
+        </div>
+        <h3 class="text-white" style="margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">¿Eliminar Materia Previa?</h3>
+        <p class="text-muted" style="font-size: 0.85rem; line-height: 1.5; margin: 0 0 1rem 0;">
+          Estás por eliminar la materia previa <strong id="borrarPreviaNombreMateria" class="text-white">-</strong> del alumno <strong id="borrarPreviaNombreAlumno" class="text-white">-</strong>.
+        </p>
+        <div style="background: rgba(239, 68, 68, 0.08); border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 0.75rem 0.9rem; margin-bottom: 1.25rem; font-size: 0.78rem; color: #fca5a5; text-align: left;">
+          <i class="fa-solid fa-triangle-exclamation" style="margin-right: 0.35rem;"></i>
+          Esta materia se quitará del boletín oficial del estudiante y se eliminará del sistema.
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalConfirmarBorrarPrevia()" style="padding: 0.55rem 1.25rem;">
+            Cancelar
+          </button>
+          <button type="button" id="btnConfirmarBorrarPreviaAccion" class="btn-danger-confirm" onclick="confirmarBorradoPreviaDefinitivo()" style="padding: 0.55rem 1.25rem; background: #dc2626; color: #fff; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <i class="fa-solid fa-trash-can"></i> Sí, Eliminar Previa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AGREGAR / EDITAR DIVISIÓN O CURSO ESCOLAR -->
+  <div id="modalEditarCurso" class="modal-overlay" style="display: none; z-index: 100000;" onclick="cerrarModalEditarCurso(event)">
+    <div class="modal-card modal-card-md" onclick="event.stopPropagation()" style="max-width: 520px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div class="icon-box-primary">
+            <i class="fa-solid fa-layer-group" style="font-size: 1.1rem;"></i>
+          </div>
+          <div>
+            <h3 id="modalCursoTitulo" class="text-white" style="margin: 0; font-size: 1.05rem; font-weight: 700;">Agregar Nueva División</h3>
+            <p id="modalCursoSubtitulo" class="text-muted" style="margin: 0.15rem 0 0; font-size: 0.78rem;">Completá los datos de la división para guardarla en la base de datos</p>
+          </div>
+        </div>
+        <button type="button" class="btn-cerrar-modal" onclick="cerrarModalEditarCurso()">&times;</button>
+      </div>
+
+      <form onsubmit="guardarCursoForm(event)" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+        <input type="hidden" id="inputCursoIdOriginal" value="">
+        <input type="hidden" id="inputCursoIdDb" value="0">
+
+        <!-- 1. Ciclo Educativo -->
+        <div>
+          <label class="fb-label" for="selectCursoCiclo">Ciclo Educativo *</label>
+          <select id="selectCursoCiclo" class="fb-input" style="width: 100%; font-weight: 600;" onchange="alCambiarCicloEnModalCurso(this.value)">
+            <option value="basico">Ciclo Básico (1° a 3° Año)</option>
+            <option value="orientado">Ciclo Orientado (4° a 6° Año)</option>
+          </select>
+        </div>
+
+        <!-- 2. Año de Cursada -->
+        <div>
+          <label class="fb-label" for="selectCursoAnio">Año de Cursada *</label>
+          <select id="selectCursoAnio" class="fb-input" style="width: 100%; font-weight: 600;">
+            <option value="1">1° Año</option>
+            <option value="2">2° Año</option>
+            <option value="3">3° Año</option>
+          </select>
+        </div>
+
+        <!-- 3. División / Sección -->
+        <div>
+          <label class="fb-label" for="inputCursoDivision">División / Sección *</label>
+          <input type="text" id="inputCursoDivision" class="fb-input" required placeholder="Ej: I, II, III, Única, A, B" style="width: 100%;">
+        </div>
+
+        <!-- 4. Turno Escolar -->
+        <div>
+          <label class="fb-label" for="selectCursoTurno">Turno Escolar *</label>
+          <select id="selectCursoTurno" class="fb-input" style="width: 100%;">
+            <option value="Turno Mañana">Turno Mañana</option>
+            <option value="Turno Tarde">Turno Tarde</option>
+            <option value="Turno Noche">Turno Noche</option>
+            <option value="Jornada Completa">Jornada Completa</option>
+          </select>
+        </div>
+
+        <!-- 5. Orientación (Bloqueado para Ciclo Básico, Habilitado para Ciclo Orientado) -->
+        <div id="cajaOrientacionModal">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label class="fb-label" for="selectCursoOrientacion" style="margin: 0;">Orientación *</label>
+            <span id="badgeOrientacionEstado" class="badge badge-dim" style="font-size: 0.68rem;">Bloqueado en Ciclo Básico</span>
+          </div>
+          <select id="selectCursoOrientacion" class="fb-input" style="width: 100%; font-weight: 600; opacity: 0.6; cursor: not-allowed; background: #0b1120;" disabled>
+            <option value="Ciclo Básico">No aplica (Ciclo Básico)</option>
+          </select>
+          <span id="ayudaOrientacionModal" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; display: block;">
+            La orientación se desbloquea únicamente al seleccionar Ciclo Orientado (4° a 6° Año).
+          </span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid #334155;">
+          <button type="button" class="btn-cancelar" onclick="cerrarModalEditarCurso()">Cancelar</button>
+          <button type="submit" id="btnGuardarCursoSubmit" class="btn-primary" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.35rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar División en Base de Datos
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST DE NOTIFICACIÓN FLOTANTE -->
+  <div id="toastNotification" class="toast-notification">
+    <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">Mensaje</span>
+  </div>
+
+  <!-- Script principal del portal -->
+  <script src="scripts/app.js?v=20261112_v13"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{
+  "jurisdiccion": "Buenos Aires",
+  "institucion": {
+    "nombre": "E.E.S. N° 5",
+    "subtitulo": "Distrito: PUAN | Nivel Secundario | Ciclo Lectivo 2025",
+    "regimen": "Cuatrimestral (R.I.T.E.)"
+  },
+  "estudiante": {
+    "nombre": "PLEININGER, URIEL LUCIANO",
+    "curso": "4° Única",
+    "dni": "48763736",
+    "tutor": "PLEININGER, CRISTIAN"
+  },
+  "columnas": [
+    {
+      "key": "c1_val",
+      "label": "1°C Val."
+    },
+    {
+      "key": "c1_nota",
+      "label": "1°C Nota"
+    },
+    {
+      "key": "c2_val",
+      "label": "2°C Val."
+    },
+    {
+      "key": "c2_nota",
+      "label": "2°C Nota"
+    },
+    {
+      "key": "rit_dic",
+      "label": "Intensif. Dic"
+    }
+  ],
+  "materias": [
+    {
+      "nombre": "Literatura",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 6,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Matemática",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 5,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Recursada"
+    },
+    {
+      "nombre": "Educación Física",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 8,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Inglés",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 8,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "NTICX",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 7,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Introducción a la Física",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 5,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Recursada"
+    },
+    {
+      "nombre": "Biología",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 6,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Historia",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 7,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Geografía",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 7,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Psicología",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 10,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Introducción a la Comunicación",
+      "tipo": "C",
+      "anio": "4°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 7,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    },
+    {
+      "nombre": "Construcción Ciudadana",
+      "tipo": "R",
+      "anio": "3°",
+      "notas": {
+        "c1_val": "TEA",
+        "c1_nota": 7,
+        "c2_val": null,
+        "c2_nota": null,
+        "rit_dic": null
+      },
+      "final": null,
+      "condicion": "Aprobada"
+    }
+  ],
+  "bloqueInferior": {
+    "titulo": "Materias Pendientes de Acreditación - Intensificación",
+    "columnas": [
+      "Materia",
+      "Año",
+      "Estado de Avance"
+    ],
+    "items": [
+      {
+        "c1": "Geografía",
+        "c2": "2°",
+        "c3": "CCA (Continúa Con Avances)"
+      },
+      {
+        "c1": "Físico-Química",
+        "c2": "3°",
+        "c3": "CSA (Continúa Sin Avances)"
+      }
+    ]
+  },
+  "asistencia": "Días Hábiles: 82 • Inasistencias: 17"
+}

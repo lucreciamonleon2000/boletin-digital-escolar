@@ -1,0 +1,283 @@
+{
+  "jurisdiccion": "Formosa",
+  "institucion": {
+    "nombre": "EPES N° 19 Vuelta de Obligado",
+    "subtitulo": "Delegación Zonal Pilcomayo | Laguna Naineck",
+    "regimen": "Trimestral"
+  },
+  "estudiante": {
+    "nombre": "GÓMEZ, MATEO",
+    "curso": "2° III",
+    "dni": "34567890",
+    "tutor": "Gómez Pedro"
+  },
+  "columnas": [
+    {
+      "key": "t1_c",
+      "label": "Concepto"
+    },
+    {
+      "key": "t1_n",
+      "label": "Nro"
+    },
+    {
+      "key": "t2_c",
+      "label": "Concepto"
+    },
+    {
+      "key": "t2_n",
+      "label": "Nro"
+    },
+    {
+      "key": "t3_c",
+      "label": "Concepto"
+    },
+    {
+      "key": "t3_n",
+      "label": "Nro"
+    },
+    {
+      "key": "rec_dic",
+      "label": "Diciembre 2026"
+    },
+    {
+      "key": "pair",
+      "label": "Feb/Mar/Abr 2027"
+    },
+    {
+      "key": "final_c",
+      "label": "Concepto"
+    },
+    {
+      "key": "final_n",
+      "label": "Nro"
+    }
+  ],
+  "materias": [
+    {
+      "nombre": "Geografía",
+      "notas": {
+        "t1_c": null,
+        "t1_n": 8,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Seminarios o Talleres de Historia",
+      "notas": {
+        "t1_c": null,
+        "t1_n": 5,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "A Recuperar"
+    },
+    {
+      "nombre": "Formación Ética y Compromiso Comunitario",
+      "notas": {
+        "t1_c": null,
+        "t1_n": 5,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "A Recuperar"
+    },
+    {
+      "nombre": "Educación Física",
+      "notas": {
+        "t1_c": null,
+        "t1_n": 10,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Tutoría: Fortalecimiento del Estudiante",
+      "notas": {
+        "t1_c": "B",
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "Conceptual"
+    },
+    {
+      "nombre": "Físico - Química",
+      "notas": {
+        "t1_c": null,
+        "t1_n": 5,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "A Recuperar"
+    },
+    {
+      "nombre": "Biología",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Educación Tecnológica",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Matemática",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Lengua y Literatura",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Educación Artística (Música)",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    },
+    {
+      "nombre": "Lengua Extranjera (Inglés)",
+      "notas": {
+        "t1_c": null,
+        "t1_n": null,
+        "t2_c": null,
+        "t2_n": null,
+        "t3_c": null,
+        "t3_n": null,
+        "rec_dic": null,
+        "pair": null,
+        "final_c": null,
+        "final_n": null
+      },
+      "condicion": "En Curso"
+    }
+  ],
+  "bloqueInferior": {
+    "titulo": "Materias Previas y Equivalencias",
+    "columnas": [
+      "Condición",
+      "Curso Origen",
+      "Materia / Espacio",
+      "Estado"
+    ],
+    "items": [
+      {
+        "id": 5,
+        "c1": "Previa",
+        "c2": "2° Año",
+        "c3": "Matemática",
+        "c4": "Pendiente",
+        "tipo": "Previa",
+        "cursoOrigen": "2° Año",
+        "curso_origen": "2° Año",
+        "materia": "Matemática",
+        "nombre_materia": "Matemática",
+        "calificacion": "5",
+        "estado": "Pendiente",
+        "fecha": "2° Año"
+      }
+    ]
+  },
+  "inasistencias": {
+    "t1": 0,
+    "t2": 0,
+    "t3": "-",
+    "total": 0
+  },
+  "asistencia": "Días Hábiles: 96 • Total Asistencias: 96 • Inasistencias: 0"
+}
