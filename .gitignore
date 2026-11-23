@@ -1,0 +1,34 @@
+# 1. Variables de entorno y secretos locales 
+.env
+.env.*
+!.env.example
+*.env
+env.local
+env.production
+
+# 2. Archivos temporales y de depuración
+scratch/
+*.log
+error_log
+php_errors.log
+npm-debug.log*
+
+# 3. Archivos de configuración de IDE y Sistema Operativo
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 4. Dependencias y paquetes (en caso de usar Node/Composer)
+node_modules/
+vendor/
+composer.phar
+
+# 5. Respaldos y volcados temporales con datos sensibles
+*.bak
+*.tmp
+*.zip
+*.tar.gz
